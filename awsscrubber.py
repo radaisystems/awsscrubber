@@ -11,7 +11,7 @@ DEIDENT_UNIT_COST = 0.0014
 DEIDENT_UNIT_SIZE = 100
 
 
-def deidentify_text(text):
+def scrub_text(text):
     """Returns text with all PHI removed and replaced with category tags."""
     if len(text) < 1:
         return ""
@@ -45,7 +45,7 @@ def scrub_directory(directory, saveto=False):
                 os.mkdir(scrubbedfilepath)
             scrub_directory(filepath, scrubbedfilepath)
         else:
-            scrubbedfilepath.write_text(deidentify_text(filepath.read_text()))
+            scrubbedfilepath.write_text(scrub_text(filepath.read_text()))
 
 
 def scrub_directory_cost(directory):
@@ -74,7 +74,7 @@ def cli(ctx):
 @click.argument("output", type=click.File("wb"))
 def scrub(input, output):
     """Scrubs a single file and outputs it where told."""
-    output.write(deidentify_text(input.read().decode()).encode())
+    output.write(scrub_text(input.read().decode()).encode())
 
 
 @cli.command(short_help="Estimate cost to scrub a file.")
