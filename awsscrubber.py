@@ -5,10 +5,12 @@ import os
 from pathlib import Path
 
 
-client = boto3.client("comprehendmedical")
 
 DEIDENT_UNIT_COST = 0.0014
 DEIDENT_UNIT_SIZE = 100
+DEFAULT_REGION = 'us-west-2'
+
+client = boto3.client("comprehendmedical", region=DEFAULT_REGION)
 
 
 def scrub_text(text):
